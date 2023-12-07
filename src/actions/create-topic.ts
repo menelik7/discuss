@@ -12,7 +12,7 @@ const createTopicSchema = z.object({
 	topic: z
 		.string()
 		.min(3)
-		.regex(/[a-z-]/, {
+		.regex(/^[a-z-]/, {
 			message: "Must be lowercase letters or dashes",
 		})
 		.refine(
