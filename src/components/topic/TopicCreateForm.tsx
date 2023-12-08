@@ -18,7 +18,7 @@ export default function TopicCreateForm() {
 	});
 
 	return (
-		<Popover placement="left">
+		<Popover placement="left-start">
 			<PopoverTrigger className="align-center">
 				<Button color="primary">Create a Topic</Button>
 			</PopoverTrigger>
