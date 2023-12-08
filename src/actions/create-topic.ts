@@ -15,10 +15,7 @@ const createTopicSchema = z.object({
 		.regex(/^[a-z-]/, {
 			message: "Must be lowercase letters or dashes",
 		})
-		.refine(
-			(s) => !s.includes(" "),
-			"you can hyphenate but spaces are not allowed"
-		),
+		.refine((s) => !s.includes(" "), "Spaces are not allowed"),
 	description: z.string().min(10),
 });
 
