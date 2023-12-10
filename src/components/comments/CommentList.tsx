@@ -1,5 +1,4 @@
 import CommentShow from "@/components/comments/CommentShow";
-import { CommentWithAuthor } from "@/db/queries/comments";
 import { fectchCommentsByPostId } from "@/db/queries/comments";
 
 interface CommentListProps {
@@ -20,7 +19,11 @@ export default async function CommentList({ postId }: CommentListProps) {
 
 	return (
 		<div className="space-y-3">
-			<h1 className="text-lg font-bold">All {comments.length} comments</h1>
+			<h1 className="text-lg font-bold">
+				{comments.length
+					? `All ${comments.length} comments`
+					: "No comments yet..."}
+			</h1>
 			{renderedComments}
 		</div>
 	);
