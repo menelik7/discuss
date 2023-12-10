@@ -1,8 +1,10 @@
-import { notFound } from "next/navigation";
 import Link from "next/link";
+import { Suspense } from "react";
 import { db } from "@/db";
 import PostShow from "@/components/posts/PostShow";
+import PostShowLoading from "@/components/posts/PostShowLoading";
 import CommentList from "@/components/comments/CommentList";
+import CommentShowLoading from "@/components/comments/CommentShowLoading";
 import CommentCreateForm from "@/components/comments/CommentCreateForm";
 import paths from "@/paths";
 
@@ -16,14 +18,6 @@ interface PostShowPageProps {
 export default async function PostShowPage({ params }: PostShowPageProps) {
 	const { slug, postId } = params;
 
-	const post = await db.post.findUnique({
-		where: { id: postId },
-	});
-
-	if (!post) {
-		notFound();
-	}
-
 	return (
 		<div className="space-y-3">
 			<Link
@@ -32,9 +26,14 @@ export default async function PostShowPage({ params }: PostShowPageProps) {
 			>
 				{"< "}Back to {slug}
 			</Link>
-			<PostShow postId={postId} />
+			<Suspense fallback={<PostShowLoading />}>
+				<PostShow postId={postId} />
+			</Suspense>
+
 			<CommentCreateForm postId={postId} />
-			<CommentList postId={postId} />
+			<Suspense fallback={<CommentShowLoading />}>
+				<CommentList postId={postId} />
+			</Suspense>
 		</div>
 	);
 }
