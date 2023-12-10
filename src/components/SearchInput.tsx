@@ -21,7 +21,7 @@ export default function SearchInput() {
 						"h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
 				}}
 				startContent={<GoSearch />}
-				placeholder="Type to search..."
+				placeholder="Type in your search..."
 			/>
 		</form>
 	);
