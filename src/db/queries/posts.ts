@@ -7,6 +7,23 @@ export type PostsWithData = Post & {
 	_count: { comments: number };
 };
 
+export function fetchPostsBySearchTerm(term: string): Promise<PostsWithData[]> {
+	return db.post.findMany({
+		include: {
+			topic: { select: { slug: true } },
+			user: { select: { name: true, image: true } },
+			_count: { select: { comments: true } },
+		},
+		where: {
+			OR: [
+				{ title: { contains: term } },
+				{ title: { contains: term[0].toUpperCase() + term.slice(1) } },
+				{ content: { contains: term } },
+			],
+		},
+	});
+}
+
 export function fetchPostsByTopicsSlug(slug: string): Promise<PostsWithData[]> {
 	return db.post.findMany({
 		where: { topic: { slug } },
@@ -15,5 +32,23 @@ export function fetchPostsByTopicsSlug(slug: string): Promise<PostsWithData[]> {
 			user: { select: { name: true } },
 			_count: { select: { comments: true } },
 		},
+	});
+}
+
+export function fetchTopPosts(): Promise<PostsWithData[]> {
+	return db.post.findMany({
+		orderBy: [
+			{
+				comments: {
+					_count: "desc",
+				},
+			},
+		],
+		include: {
+			topic: { select: { slug: true } },
+			user: { select: { name: true, image: true } },
+			_count: { select: { comments: true } },
+		},
+		take: 5,
 	});
 }

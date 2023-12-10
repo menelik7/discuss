@@ -10,6 +10,15 @@ interface PostListProps {
 export default async function PostList({ fetchData }: PostListProps) {
 	const posts = await fetchData();
 
+	if (!posts.length) {
+		return (
+			<>
+				<h3 className="text-lg font-bold">Oops! Nothing here yet.</h3>
+				<p>please try something different</p>
+			</>
+		);
+	}
+
 	const renderedPosts = posts.map((post) => {
 		const topicSlug = post.topic.slug;
 
