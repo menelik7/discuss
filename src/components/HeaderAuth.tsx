@@ -14,43 +14,48 @@ import { auth } from "@/auth";
 import { useSession } from "next-auth/react";
 import { ReactNode } from "react";
 import * as actions from "@/actions";
+import paths from "@/paths";
 
-const avatarButtons = [
-	{
-		text: "My posts",
-		path: "/topics/javascript/posts/new",
-	},
-	{
-		text: "My comments",
-		path: "/topics/javascript/posts/1",
-	},
-];
+// TODO: implement method for querying comments specific to a user
+// and display them on the appropriate page
 
 export default function HeaderAuth() {
 	const session = useSession();
 
-	const renderedAvatarButtons = avatarButtons.map((avatarButton) => {
-		return (
-			<Link key={avatarButton.text} href={avatarButton.path}>
-				<Button
-					className="px-4 py-2 hover:bg-[#F4F4F5]"
-					variant="light"
-					radius="none"
-					fullWidth
-				>
-					{avatarButton.text}
-				</Button>
-			</Link>
-		);
-	});
-
 	let authContent: ReactNode;
+
 	if (session.status === "loading") {
 		authContent = (
 			<CircularProgress size="lg" color="secondary" aria-label="Loading..." />
 		);
 	} else if (session?.data?.user) {
 		const { user } = session?.data;
+		const avatarButtons = [
+			{
+				text: "My posts",
+				path: paths.myPostShow(session.data?.user?.id),
+			},
+			{
+				text: "My comments",
+				path: paths.myCommentsShow(session.data?.user?.id),
+			},
+		];
+
+		const renderedAvatarButtons = avatarButtons.map((avatarButton) => {
+			return (
+				<Link key={avatarButton.text} href={avatarButton.path}>
+					<Button
+						className="px-4 py-2 hover:bg-[#F4F4F5]"
+						variant="light"
+						radius="none"
+						fullWidth
+					>
+						{avatarButton.text}
+					</Button>
+				</Link>
+			);
+		});
+
 		authContent = (
 			<Popover placement="bottom-end">
 				<PopoverTrigger className="border-2 border-[#635BFF] rounded-full shadow-md">

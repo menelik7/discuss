@@ -7,12 +7,16 @@ const paths = {
 		return `/topics/${topicSlug}`;
 	},
 
-	postCreate(topicSlug: string) {
-		return `/topics/${topicSlug}/posts/new`;
-	},
-
 	postShow(topicSlug: string, postId: string) {
 		return `/topics/${topicSlug}/posts/${postId}`;
+	},
+
+	myPostShow(userId: string) {
+		return `/posts/${userId}`;
+	},
+
+	myCommentsShow(userId: string) {
+		return `/comments/${userId}`;
 	},
 };
 

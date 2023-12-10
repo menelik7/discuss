@@ -21,18 +21,6 @@ export default async function PostShowPage({ params }: PostShowPageProps) {
 		where: { id: postId },
 	});
 
-	const comments = await db.comment.findMany({
-		where: { postId },
-		include: {
-			user: {
-				select: {
-					name: true,
-					image: true,
-				},
-			},
-		},
-	});
-
 	if (!post) {
 		notFound();
 	}
