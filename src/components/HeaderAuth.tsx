@@ -10,7 +10,6 @@ import {
 	PopoverContent,
 	CircularProgress,
 } from "@nextui-org/react";
-import { auth } from "@/auth";
 import { useSession } from "next-auth/react";
 import { ReactNode } from "react";
 import * as actions from "@/actions";

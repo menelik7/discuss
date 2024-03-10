@@ -8,6 +8,7 @@ export type PostsWithData = Post & {
 };
 
 export function fetchPostsBySearchTerm(term: string): Promise<PostsWithData[]> {
+	console.log("Logging from query function: ", term);
 	return db.post.findMany({
 		include: {
 			topic: { select: { slug: true } },
